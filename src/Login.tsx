@@ -1,14 +1,16 @@
 import React, { useState, FormEvent } from 'react';
-import './Login.css'; // Make sure to create a corresponding CSS file
+import { useDispatch } from 'react-redux';
+import { authenticate } from '../redux/authSlice';
+import './Login.css';
 
-  const Login: React.FC = () => {
+const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const dispatch = useDispatch();
 
   const handleLogin = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    // Handle the login logic here
-    console.log(email, password);
+    dispatch(authenticate({ email, password }));
   };
 
   return (
@@ -16,9 +18,9 @@ import './Login.css'; // Make sure to create a corresponding CSS file
       <form className="login-form" onSubmit={handleLogin}>
         <h2>Sign in</h2>
         <div className="form-group">
-          <label htmlFor="email">Email or phone</label>
+          <label htmlFor="email">Username</label>
           <input
-            type="email"
+            type="text"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -36,7 +38,7 @@ import './Login.css'; // Make sure to create a corresponding CSS file
           />
         </div>
         <div className="form-group">
-          <button type="submit" className="login-button">Next</button>
+          <button type="submit" className="login-button bg-blue-500">Next</button>
         </div>
         <div className="login-footer">
           <a href="#">Forgot email?</a>

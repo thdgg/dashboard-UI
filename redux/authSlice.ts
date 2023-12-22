@@ -1,53 +1,57 @@
-// authSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import config from "../config.ts";
 
+const { BASE_URL, SECURITY_PORT, usePort } = config;
+const composedUrl:string = usePort ?  `${BASE_URL}:${SECURITY_PORT}` : `${BASE_URL}`;
 interface AuthState {
     token: string | null;
-    isLoading: boolean;
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
 }
 
 const initialState: AuthState = {
     token: null,
-    isLoading: false,
+    status: 'idle',
     error: null,
 };
 
-export const authSlice = createSlice({
+export const authenticate = createAsyncThunk(
+    'auth/authenticate',
+    async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
+        try {
+            const authString = btoa(`${email}:${password}`);
+            const response = await axios.get(composedUrl, {
+                headers: {
+                    Authorization: `Basic ${authString}`,
+                    "Content-Type": "application/json"
+                },
+            });
+            console.log(response.data);
+            return response.data; // The expected response is a JWT token
+        } catch (err: any) {
+            return rejectWithValue(err.response.data);
+        }
+    }
+);
+
+const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {
-        loginStart: (state: { isLoading: boolean; }) => {
-            state.isLoading = true;
-        },
-        loginSuccess: (state: { token: string; isLoading: boolean; error: null; }, action: PayloadAction<string>) => {
-            state.token = action.payload;
-            state.isLoading = false;
-            state.error = null;
-        },
-        loginFailure: (state: { error: string; isLoading: boolean; }, action: PayloadAction<string>) => {
-            state.error = action.payload;
-            state.isLoading = false;
-        },
-        logout: (state) => {
-            state.token = null;
-        },
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(authenticate.pending, (state) => {
+            state.status = 'loading';
+        });
+        builder.addCase(authenticate.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.token = action.payload.token; // Update this path according to your API response
+        });
+        builder.addCase(authenticate.rejected, (state, action) => {
+            state.status = 'failed';
+            state.error = action.payload as string;
+        });
     },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
-
 export default authSlice.reducer;
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-export const login = (email: string, password: string) => async (dispatch: any) => {
-    dispatch(loginStart());
-    try {
-        const response = await axios.post('http://localhost:8080/jwt', { email, password });
-        dispatch(loginSuccess(response.data.token));
-    } catch (error: Error) {
-        dispatch(loginFailure(error.response.data.message));
-    }
-};

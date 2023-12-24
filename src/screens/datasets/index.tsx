@@ -1,15 +1,10 @@
-import Navbar from "../navbar";
+import Container from "@/components/container";
 
 const Datasets = () => {
   return (
-    <div className="relative">
-      <div className="absolute top-0 left-0">
-        <Navbar />
-      </div>
-      <div className="ml-28">
-
-      </div>
-    </div>
+    <Container>
+      <h1 className="text-5xl font-bold">Datasets</h1>
+    </Container>
   );
 };
 

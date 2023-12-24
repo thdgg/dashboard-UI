@@ -21,7 +21,7 @@ export const authenticate = createAsyncThunk(
     async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
         try {
             const authString = btoa(`${email}:${password}`);
-            const response = await axios.get(composedUrl, {
+            const response = await axios.get(composedUrl + "/jwt", {
                 headers: {
                     Authorization: `Basic ${authString}`,
                     "Content-Type": "application/json"

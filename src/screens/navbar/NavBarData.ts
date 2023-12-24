@@ -19,7 +19,7 @@ export const NavBarData= [
   },
   {
     title: "My Datasets",
-    path: "/dataset",
+    path: "/datasets",
     icon: CircleStackIcon
   },
   {

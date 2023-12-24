@@ -9,12 +9,12 @@ import {
 export const NavBarData= [
   {
     title: "Home",
-    path: "/",
+    path: "/home",
     icon: HomeIcon, 
   },
   {
     title: "Explorer",
-    path: "explorer",
+    path: "/explorer",
     icon: UserGroupIcon,
   },
   {

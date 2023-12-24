@@ -14,10 +14,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/explorer" element={<Explorer />} />
-        <Route path="/dataset" element={<Datasets />} />
+        <Route path="/datasets" element={<Datasets />} />
         <Route path="/models" element={<Models />} />
         <Route path="tests" element={<Test />} />
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>,
+  </React.StrictMode>
 );

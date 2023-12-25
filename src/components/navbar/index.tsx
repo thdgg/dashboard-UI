@@ -1,22 +1,20 @@
 import { Bars3Icon, PlusIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { NavBarData } from "./NavBarData";
 import { useMediaQuery } from "react-responsive";
 import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const [isMenuToggle, setIsMenuToggle] = useState<boolean>(false);
-  const [selectedMenuItem, setSelectedMenuItem] = useState<number>(() => {
-    // Get the initial value from localStorage on component mount
-    const saved = localStorage.getItem('selectedMenuItem');
-    const initialValue = JSON.parse(saved!);
-    return initialValue || 0;
-  });
-
+  const [selectedMenuItem, setSelectedMenuItem] = useState<number>(0);
+  const location = useLocation();
   useEffect(() => {
-    // Save the selectedMenuItem to localStorage on component update
-    localStorage.setItem('selectedMenuItem', JSON.stringify(selectedMenuItem));
-  }, [selectedMenuItem]);
+    const currentPath = location.pathname;
+    const currentMenuItem = NavBarData.findIndex(
+      (item) => item.path === currentPath
+    );
+    setSelectedMenuItem(currentMenuItem);
+  }, [location]);
 
   const isAboveMedium = useMediaQuery({ query: "(min-width: 768px)" });
   const flexBetween = "flex justify-start items-center";

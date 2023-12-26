@@ -32,7 +32,7 @@ const Navbar = React.memo(() => {
               <div className={`${flexBetween} w-64 p-2`}>
                 <button>
                   <Bars3Icon
-                    className="h-12 w-12 mt-2 mr-4 ml-0 p-2 bg-grey-50 hover:bg-gray-100 rounded-full"
+                    className="h-12 w-12 mr-4 ml-0 p-2 bg-grey-50 hover:bg-gray-100 rounded-full"
                     onClick={() => setIsMenuToggle(!isMenuToggle)}
                   />
                 </button>
@@ -101,7 +101,7 @@ const Navbar = React.memo(() => {
             <div className={`${flexBetween} pt-4 pl-4`}>
               <button>
                 <Bars3Icon
-                  className="h-12 w-12 mt-2 mr-4 ml-0 p-2 bg-grey-50 hover:bg-gray-100 rounded-full"
+                  className="h-12 w-12 mr-4 ml-0 p-2 bg-grey-50 hover:bg-gray-100 rounded-full"
                   onClick={() => setIsMenuToggle(!isMenuToggle)}
                 />
               </button>

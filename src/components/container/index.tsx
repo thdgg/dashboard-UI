@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import Navbar from "@/components/navbar";
 import Searchbar from "@/components/searchbar";
 import { useMediaQuery } from "react-responsive";
+import Profile from "../profile";
 
 interface LayoutProps {
   children: ReactNode;
@@ -15,14 +16,19 @@ const Container = ({ children }: LayoutProps) => {
         <Navbar />
       </div>
       <div className="pt-2">
-        {/* Add pt-4 or any other value as per your requirement */}
-        <div className="mt-2">
+        <div className="flex justify-between ">
+          <div className={`${isAboveMedium ? "ml-32" : "ml-16"} w-4/5`}>
           <Searchbar />
-        </div>
-        <div className={` ${isAboveMedium ? "ml-32" : "ml-16"} mt-16`}>
-          {children}
+          </div>
+          <div className="w-auto px-4">
+          <Profile />
+          </div>
         </div>
       </div>
+      
+      <div className={` ${isAboveMedium ? "ml-32" : "ml-16"} mt-16`}>
+          {children}
+        </div>
     </div>
   );
 };

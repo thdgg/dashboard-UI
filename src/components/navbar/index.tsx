@@ -85,7 +85,7 @@ const Navbar = React.memo(() => {
                           <div
                             className={`${
                               isMenuToggle ? "ml-4" : "ml-0"
-                            } duration-75 `}
+                            } duration-75 text-md`}
                           >
                             {isMenuToggle ? item.title : ""}
                           </div>

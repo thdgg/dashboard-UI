@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import Navbar from "@/components/navbar";
 import Searchbar from "@/components/searchbar";
 import { useMediaQuery } from "react-responsive";
-import Profile from "../profile";
+import Sidebar from "../sidebar";
 
 interface LayoutProps {
   children: ReactNode;
@@ -21,7 +21,7 @@ const Container = ({ children }: LayoutProps) => {
           <Searchbar />
           </div>
           <div className="w-auto px-4">
-          <Profile />
+          <Sidebar />
           </div>
         </div>
       </div>

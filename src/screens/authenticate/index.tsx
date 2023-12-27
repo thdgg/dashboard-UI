@@ -13,7 +13,6 @@ const Authenticate = () => {
     localStorage.setItem('isLogin', JSON.stringify(isLogin));
   }, [isLogin]);
 
-  
   return (
     <div
       className={`${

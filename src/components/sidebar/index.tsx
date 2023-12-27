@@ -8,6 +8,7 @@ import {
 } from "react";
 import { ProfileData } from "./ProfileData";
 import { Link } from "react-router-dom";
+import useAuth from "@/hooks/useAuth";
 
 const useOnClickOutside = (
   ref: MutableRefObject<HTMLDivElement | null>,
@@ -27,8 +28,9 @@ const useOnClickOutside = (
   }, [ref, handler]);
 };
 
-const Profile = () => {
+const Sidebar = () => {
   const [isMenuToggle, setIsMenuToggle] = useState<boolean>(false);
+  const {auth} = useAuth();
   const ref = useRef<HTMLDivElement | null>(null);
 
   useOnClickOutside(ref, () => setIsMenuToggle(false));
@@ -55,7 +57,7 @@ const Profile = () => {
                 src="https://picsum.photos/200"
                 className="ml-8 w-8 h-8 rounded-full"
               />
-              <h1 className="text-2xl font-bold">John Doe</h1>
+              <h1 className="text-2xl font-bold">{auth?.userName}</h1>
               <button
                 className="flex items-center justify-center w-12 h-12 p-1 ml-auto mr-8 rounded-full hover:bg-gray-200"
                 onClick={() => setIsMenuToggle(!isMenuToggle)}
@@ -92,4 +94,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Sidebar;

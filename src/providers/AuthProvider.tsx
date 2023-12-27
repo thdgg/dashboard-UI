@@ -5,8 +5,15 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
+interface AuthState {
+  token: string;
+  userId: string;
+  userName: string;
+}
+
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [auth, setAuth] = useState("");
+  const [auth, setAuth] = useState<AuthState | null>(null);
+
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
       {children}

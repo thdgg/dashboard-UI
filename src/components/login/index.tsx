@@ -6,14 +6,14 @@ import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 const Login = () => {
   const userRef = useRef<HTMLInputElement>(null);
   const { setAuth } = useAuth();
-  const { auth } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   const [response, error, loading, axiosFetch] = useAxiosFunction();
+  const navigate = useNavigate();
 
   useEffect(() => {
     userRef.current?.focus();
@@ -22,9 +22,15 @@ const Login = () => {
   useEffect(() => {
     if (response) {
       const accessToken = response?.data;
-      console.log('Access Token:', accessToken); // Debug line
-      setAuth(accessToken);
+      if (accessToken) {
+      setAuth({
+        token: accessToken,
+        userName: username,
+      });
+      navigate("/home");
     }
+  }
+
   }, [response]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

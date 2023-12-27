@@ -11,7 +11,11 @@ type ConfigType = {
 const useAxios = (
   { axiosInstance, method, url, requestConfig }: ConfigType,
 ) => {
-  const [response, setResponse] = useState([]);
+  const [response, setResponse] = useState<any>({
+    data: {},
+    status: 0,
+    statusText: "",
+  });
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(false);
@@ -30,7 +34,11 @@ const useAxios = (
           signal: AbortSignal.timeout(5000),
         });
         console.log(res);
-        setResponse(res.data);
+        setResponse({
+          data: res.data,
+          status: res.status,
+          statusText: res.statusText,
+      });
       } catch (err: any) {
         console.log(err.message);
         setError(err.message);

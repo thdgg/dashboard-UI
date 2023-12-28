@@ -6,7 +6,6 @@ import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 const Login = () => {
   const userRef = useRef<HTMLInputElement>(null);
   const { setAuth } = useAuth();
@@ -23,14 +22,13 @@ const Login = () => {
     if (response) {
       const accessToken = response?.data;
       if (accessToken) {
-      setAuth({
-        token: accessToken,
-        userName: username,
-      });
-      navigate("/home");
+        setAuth({
+          token: accessToken,
+          userName: username,
+        });
+        navigate("/home");
+      }
     }
-  }
-
   }, [response]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -46,11 +44,11 @@ const Login = () => {
         },
       },
     });
-  }
+  };
 
   return (
     <div>
-    <form className="flex flex-col mx-6 mt-10" onSubmit={handleSubmit}>
+      <form className="flex flex-col mx-6 mt-10" onSubmit={handleSubmit}>
         <label htmlFor="username" className="mb-2">
           Username
         </label>
@@ -81,6 +79,7 @@ const Login = () => {
             <InformationCircleIcon className="w-8 h-8 text-gray-300" />
             <p className="border-1 p-1 text-sm text-gray-300 rounded-md">
               {response.status === 200 ? "Successfully login" : error}
+              {error}
             </p>
           </div>
         )}

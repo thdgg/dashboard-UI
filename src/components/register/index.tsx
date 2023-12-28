@@ -29,7 +29,6 @@ const Register = () => {
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
 
-
   const [response, error, loading, axiosFetch] = useAxiosFunction();
 
   useEffect(() => {
@@ -37,8 +36,8 @@ const Register = () => {
   }, []);
 
   useEffect(() => {
-     const result = USER_REGEX.test(username);
-      setValidUsername(result);
+    const result = USER_REGEX.test(username);
+    setValidUsername(result);
   }, [username]);
 
   useEffect(() => {
@@ -81,17 +80,20 @@ const Register = () => {
         setLastName("");
       }
     }
-  }
-
+  };
 
   return (
     <div>
-      <form className="flex flex-col mx-6 mt-10"  onSubmit={handleSubmit}>
+      <form className="flex flex-col mx-6 mt-10" onSubmit={handleSubmit}>
         <label htmlFor="username" className="mb-2">
           Username
           <span className="text-red-500">*</span>
-          <span className={validUsername ? "text-green-500" : "text-red-500"}> {username && validUsername  ? "valid" : ""}</span>
-          <span className={validUsername ? "text-green-500" : "text-red-500"}> {username && !validUsername  ? "invalid" : ""}</span>
+          <span className={validUsername ? "text-green-500" : "text-red-500"}>
+            {username && validUsername ? "valid" : ""}
+          </span>
+          <span className={validUsername ? "text-green-500" : "text-red-500"}>
+            {username && !validUsername ? "invalid" : ""}
+          </span>
         </label>
         <input
           id="username"
@@ -107,17 +109,21 @@ const Register = () => {
         />
         {usernameFocus && username && !validUsername && (
           <div className="flex items-center w-full">
-          <InformationCircleIcon className="w-8 h-8 text-gray-300" />
-          <p className="border-1 p-1 text-sm text-gray-300 rounded-md">
-            Must contains atleast 8 characters <br />
-          </p>
-        </div>
-          )}
+            <InformationCircleIcon className="w-8 h-8 text-gray-300" />
+            <p className="border-1 p-1 text-sm text-gray-300 rounded-md">
+              Must contains atleast 8 characters <br />
+            </p>
+          </div>
+        )}
         <label htmlFor="password" className="mb-2">
           Password
           <span className="text-red-500">*</span>
-          <span className={validPassword ? "text-green-500" : "text-red-500"}> {password && validPassword ? "valid" : ""}</span>
-          <span className={validPassword ? "text-green-500" : "text-red-500"}> {password && !validPassword ? "invalid" : ""}</span>
+          <span className={validPassword ? "text-green-500" : "text-red-500"}>
+            {password && validPassword ? "valid" : ""}
+          </span>
+          <span className={validPassword ? "text-green-500" : "text-red-500"}>
+            {password && !validPassword ? "invalid" : ""}
+          </span>
         </label>
         <input
           id="password"
@@ -143,8 +149,16 @@ const Register = () => {
         <label htmlFor="confirm-password" className="mb-2">
           Confirm Password
           <span className="text-red-500">*</span>
-          <span className={validConfirmPassword ? "text-green-500" : "text-red-500"}> {confirmPassword && validConfirmPassword ? "valid" : ""}</span>
-          <span className={validConfirmPassword ? "text-green-500" : "text-red-500"}> {confirmPassword && !validConfirmPassword ? "invalid" : ""}</span>
+          <span
+            className={validConfirmPassword ? "text-green-500" : "text-red-500"}
+          >
+            {confirmPassword && validConfirmPassword ? "valid" : ""}
+          </span>
+          <span
+            className={validConfirmPassword ? "text-green-500" : "text-red-500"}
+          >
+            {confirmPassword && !validConfirmPassword ? "invalid" : ""}
+          </span>
         </label>
         <input
           id="confirm-password"
@@ -168,8 +182,12 @@ const Register = () => {
         <label htmlFor="email" className="mb-2">
           Email
           <span className="text-red-500">*</span>
-          <span className={validEmail ? "text-green-500" : "text-red-500"}> {email && validEmail ? "valid" : ""}</span>
-          <span className={validEmail ? "text-green-500" : "text-red-500"}> {email && !validEmail ? "invalid" : ""}</span>
+          <span className={validEmail ? "text-green-500" : "text-red-500"}>
+            {email && validEmail ? "valid" : ""}
+          </span>
+          <span className={validEmail ? "text-green-500" : "text-red-500"}>
+            {email && !validEmail ? "invalid" : ""}
+          </span>
         </label>
         <input
           id="email"
@@ -223,8 +241,9 @@ const Register = () => {
             </p>
           </div>
         )}
-        <button 
-          disabled={!validUsername || !validPassword || !validConfirmPassword || !validEmail}
+        <button
+          disabled={!validUsername || !validPassword || !validConfirmPassword ||
+            !validEmail}
           className="my-6 p-2 rounded bg-white text-black disabled:opacity-50"
           type="submit"
         >

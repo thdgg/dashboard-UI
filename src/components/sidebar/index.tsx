@@ -30,7 +30,7 @@ const useOnClickOutside = (
 
 const Sidebar = () => {
   const [isMenuToggle, setIsMenuToggle] = useState<boolean>(false);
-  const {auth} = useAuth();
+  const { auth } = useAuth();
   const ref = useRef<HTMLDivElement | null>(null);
 
   useOnClickOutside(ref, () => setIsMenuToggle(false));
@@ -74,14 +74,15 @@ const Sidebar = () => {
                       to={item.path}
                       key={index}
                     >
-                    <li key={index} className="flex items-center my-3 gap-3 hover:bg-gray-100">
-                      <div className="w-12 h-12 p-1 ml-6 rounded-full">
-                        <item.icon
-                          className="w-10 h-10 rounded-full"
-                        />
-                      </div>
-                      <h1 className=" mt-1 text-md">{item.title}</h1>
-                    </li>
+                      <li
+                        key={index}
+                        className="flex items-center my-3 gap-3 hover:bg-gray-100"
+                      >
+                        <div className="w-12 h-12 p-1 ml-6 rounded-full">
+                          <item.icon className="w-10 h-10 rounded-full" />
+                        </div>
+                        <h1 className=" mt-1 text-md">{item.title}</h1>
+                      </li>
                     </Link>
                   );
                 })}

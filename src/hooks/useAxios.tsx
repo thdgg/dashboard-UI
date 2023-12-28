@@ -38,7 +38,7 @@ const useAxios = (
           data: res.data,
           status: res.status,
           statusText: res.statusText,
-      });
+        });
       } catch (err: any) {
         console.log(err.message);
         setError(err.message);

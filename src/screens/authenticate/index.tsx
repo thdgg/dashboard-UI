@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 
 const Authenticate = () => {
-  const savedIsLogin = localStorage.getItem('isLogin');
-  const [isLogin, setIsLogin] = useState(savedIsLogin ? JSON.parse(savedIsLogin) : true);
+  const savedIsLogin = localStorage.getItem("isLogin");
+  const [isLogin, setIsLogin] = useState(
+    savedIsLogin ? JSON.parse(savedIsLogin) : true,
+  );
   const isAboveMedium = useMediaQuery({ minWidth: 768 });
 
   // Save to localStorage whenever isLogin changes
   useEffect(() => {
-    localStorage.setItem('isLogin', JSON.stringify(isLogin));
+    localStorage.setItem("isLogin", JSON.stringify(isLogin));
   }, [isLogin]);
 
   return (

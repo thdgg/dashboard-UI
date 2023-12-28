@@ -18,17 +18,17 @@ const Container = ({ children }: LayoutProps) => {
       <div className="pt-2">
         <div className="flex justify-between ">
           <div className={`${isAboveMedium ? "ml-32" : "ml-16"} w-4/5`}>
-          <Searchbar />
+            <Searchbar />
           </div>
           <div className="w-auto px-4">
-          <Sidebar />
+            <Sidebar />
           </div>
         </div>
       </div>
-      
+
       <div className={` ${isAboveMedium ? "ml-32" : "ml-16"} mt-16`}>
-          {children}
-        </div>
+        {children}
+      </div>
     </div>
   );
 };

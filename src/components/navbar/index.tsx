@@ -1,13 +1,48 @@
-import { Bars3Icon, PlusIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  CircleStackIcon,
+  PlusIcon,
+  PuzzlePieceIcon,
+} from "@heroicons/react/24/outline";
 import { Link, useLocation } from "react-router-dom";
 import { NavBarData } from "./NavBarData";
 import { useMediaQuery } from "react-responsive";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const Navbar = React.memo(() => {
+  const flexBetween = "flex justify-start items-center";
   const [isMenuToggle, setIsMenuToggle] = useState<boolean>(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState<number>(0);
+  const [isAddMenuVisible, setIsAddMenuVisible] = useState<boolean>(false);
   const location = useLocation();
+  const isAboveMedium = useMediaQuery({ query: "(min-width: 768px)" });
+  const popupRef = useRef<HTMLDivElement | null>(null);
+  const navbarRef = useRef<HTMLDivElement | null>(null);
+  let timeoutId: NodeJS.Timeout;
+
+  const handleClickOutside = (
+    ref: React.RefObject<HTMLDivElement>,
+    setState: React.Dispatch<React.SetStateAction<boolean>>,
+  ) =>
+  (event: MouseEvent) => {
+    if (ref.current && !ref.current.contains(event.target as Node)) {
+      setState(false);
+    }
+  };
+
+  useEffect(() => {
+    const clickOutsidePopup = handleClickOutside(popupRef, setIsAddMenuVisible);
+    const clickOutsideNavbar = handleClickOutside(navbarRef, setIsMenuToggle);
+
+    document.addEventListener("click", clickOutsidePopup);
+    document.addEventListener("click", clickOutsideNavbar);
+
+    return () => {
+      document.removeEventListener("click", clickOutsidePopup);
+      document.removeEventListener("click", clickOutsideNavbar);
+    };
+  }, []);
+
   useEffect(() => {
     const currentPath = location.pathname;
     const currentMenuItem = NavBarData.findIndex(
@@ -16,10 +51,8 @@ const Navbar = React.memo(() => {
     setSelectedMenuItem(currentMenuItem);
   }, [location]);
 
-  const isAboveMedium = useMediaQuery({ query: "(min-width: 768px)" });
-  const flexBetween = "flex justify-start items-center";
   return (
-    <aside className="h-screen">
+    <aside className="h-screen" ref={navbarRef}>
       <nav className={`${isAboveMedium ? "w-full" : "w-0"} h-full`}>
         {isAboveMedium || isMenuToggle
           ? (
@@ -45,9 +78,11 @@ const Navbar = React.memo(() => {
               <div
                 className={`${flexBetween} ${
                   isMenuToggle ? "w-32" : "w-16"
-                } mb-3 p-2 border rounded-full bg-grey-50 hover:bg-gray-100 `}
+                } mb-3 p-2 border rounded-full bg-grey-50 hover:bg-gray-100 relative`} // Add relative here
+                onClick={() => setIsAddMenuVisible(!isAddMenuVisible)}
+                ref={popupRef}
               >
-                <button className="">
+                <button>
                   <PlusIcon className="h-12 w-12 ml-0 p-2 bg-grey-50 hover:bg-gray-100 rounded-full" />
                 </button>
                 <div
@@ -56,11 +91,37 @@ const Navbar = React.memo(() => {
                   {isMenuToggle ? "Add" : ""}
                 </div>
               </div>
+              {isAddMenuVisible && (
+                <div className="absolute top-36 left-2 w-60 h-32 border rounded-lg bg-white">
+                  {/* menu options... */}
+                  <div className="flex flex-col gap-2 m-4">
+                    <button className="flex text-md w-full hover:bg-gray-200 p-2">
+                      <PuzzlePieceIcon className="h-7 w-7 mr-2" />
+                      New Model
+                    </button>
+                    <button className="flex text-md w-full hover:bg-gray-200 p-2">
+                      <CircleStackIcon className="h-7 w-7 mr-2" />
+                      New Dataset
+                    </button>
+                  </div>
+                </div>
+              )}
               {/* MENU ITEMS */}
               <ul
                 className="overflow-y-auto overflow-x-hidden"
-                onMouseEnter={() => isAboveMedium && setIsMenuToggle(true)}
-                onMouseLeave={() => isAboveMedium && setIsMenuToggle(false)}
+                onMouseEnter={() => {
+                  if (isAboveMedium) {
+                    timeoutId = setTimeout(() => {
+                      setIsMenuToggle(true);
+                    }, 400); // 500ms delay
+                  }
+                }}
+                onMouseLeave={() => {
+                  if (isAboveMedium) {
+                    clearTimeout(timeoutId);
+                    setIsMenuToggle(false);
+                  }
+                }}
               >
                 {NavBarData.map((item, index) => {
                   return (
@@ -76,7 +137,7 @@ const Navbar = React.memo(() => {
                           selectedMenuItem === index
                             ? "bg-gray-100 border-r-4 border-r-indigo-500"
                             : "hover:bg-gray-100"
-                        } h-16 flex justify-start items-center hover:bg-gray-100 cursor-pointer"`}
+                        } h-16 flex justify-start items-center hover:bg-gray-100 cursor-pointer duration-75"`}
                       >
                         <div className="flex justify-start items-center">
                           <div className="ml-4">
@@ -85,7 +146,7 @@ const Navbar = React.memo(() => {
                           <div
                             className={`${
                               isMenuToggle ? "ml-4" : "ml-0"
-                            } duration-75 text-md`}
+                            } text-md`}
                           >
                             {isMenuToggle ? item.title : ""}
                           </div>

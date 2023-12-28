@@ -9,6 +9,7 @@ interface AuthState {
   token: string;
   userId: string;
   userName: string;
+  role: string;
 }
 
 const AuthProvider = ({ children }: AuthProviderProps) => {

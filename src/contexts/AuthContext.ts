@@ -5,8 +5,13 @@ interface AuthContextProps {
     token: string;
     userId: string;
     userName: string;
+    role: string;
   } | null;
-  setAuth: (auth: Partial<{ token: string; userId: string; userName: string }>) => void;
+  setAuth: (
+    auth: Partial<
+      { token: string; userId: string; userName: string; role: string }
+    >,
+  ) => void;
 }
 
 export const AuthContext = createContext<AuthContextProps | null>(null);

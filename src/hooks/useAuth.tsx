@@ -19,7 +19,7 @@ const useAuth = () => {
 
   // Save auth state to cookies whenever it changes
   useEffect(() => {
-    Cookies.set("auth", JSON.stringify(auth));
+    Cookies.set("auth", JSON.stringify(auth), { expires: 1 });
   }, [auth]);
 
   return { auth, setAuth };

@@ -36,7 +36,7 @@ const Login = () => {
     const authString = "Basic " + btoa(username + ":" + password);
     axiosFetch({
       axiosInstance: SecurityDashboardAI,
-      method: "get",
+      method: "post",
       url: "/jwt",
       requestConfig: {
         headers: {

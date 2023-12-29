@@ -79,7 +79,6 @@ const Login = () => {
             <InformationCircleIcon className="w-8 h-8 text-gray-300" />
             <p className="border-1 p-1 text-sm text-gray-300 rounded-md">
               {response.status === 200 ? "Successfully login" : error}
-              {error}
             </p>
           </div>
         )}

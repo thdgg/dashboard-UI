@@ -8,12 +8,15 @@ import { Link, useLocation } from "react-router-dom";
 import { NavBarData } from "./NavBarData";
 import { useMediaQuery } from "react-responsive";
 import React, { useEffect, useRef, useState } from "react";
+import SubmissionBox from "../submissonbox";
 
 const Navbar = React.memo(() => {
   const flexBetween = "flex justify-start items-center";
   const [isMenuToggle, setIsMenuToggle] = useState<boolean>(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState<number>(0);
   const [isAddMenuVisible, setIsAddMenuVisible] = useState<boolean>(false);
+  const [isNewModelWindowVisible, setIsNewModelWindowVisible] = useState<boolean>(false);
+
   const location = useLocation();
   const isAboveMedium = useMediaQuery({ query: "(min-width: 768px)" });
   const popupRef = useRef<HTMLDivElement | null>(null);
@@ -32,14 +35,14 @@ const Navbar = React.memo(() => {
 
   useEffect(() => {
     const clickOutsidePopup = handleClickOutside(popupRef, setIsAddMenuVisible);
-    const clickOutsideNavbar = handleClickOutside(navbarRef, setIsMenuToggle);
+    // const clickOutsideNavbar = handleClickOutside(navbarRef, setIsMenuToggle);
 
     document.addEventListener("click", clickOutsidePopup);
-    document.addEventListener("click", clickOutsideNavbar);
+    // document.addEventListener("click", clickOutsideNavbar);
 
     return () => {
       document.removeEventListener("click", clickOutsidePopup);
-      document.removeEventListener("click", clickOutsideNavbar);
+      // document.removeEventListener("click", clickOutsideNavbar);
     };
   }, []);
 
@@ -52,6 +55,13 @@ const Navbar = React.memo(() => {
   }, [location]);
 
   return (
+    <div className="w-screen h-screen">
+     {
+        isNewModelWindowVisible && (
+          <SubmissionBox setIsNewModelWindowVisible={setIsNewModelWindowVisible} />
+        )
+     }
+    
     <aside className="h-screen" ref={navbarRef}>
       <nav className={`${isAboveMedium ? "w-full" : "w-0"} h-full`}>
         {isAboveMedium || isMenuToggle
@@ -95,7 +105,7 @@ const Navbar = React.memo(() => {
                 <div className="absolute top-36 left-2 w-60 h-32 border rounded-lg bg-white">
                   {/* menu options... */}
                   <div className="flex flex-col gap-2 m-4">
-                    <button className="flex text-md w-full hover:bg-gray-200 p-2">
+                    <button className="flex text-md w-full hover:bg-gray-200 p-2" onClick={() => setIsNewModelWindowVisible(true)}>
                       <PuzzlePieceIcon className="h-7 w-7 mr-2" />
                       New Model
                     </button>
@@ -170,6 +180,7 @@ const Navbar = React.memo(() => {
           )}
       </nav>
     </aside>
+    </div>
   );
 });
 

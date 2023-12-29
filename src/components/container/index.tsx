@@ -12,7 +12,7 @@ const Container = ({ children }: LayoutProps) => {
   const isAboveMedium = useMediaQuery({ query: "(min-width: 768px)" });
   return (
     <div className="relative">
-      <div className="absolute top-0 left-0 z-50">
+      <div className="absolute top-0 left-0 z-40">
         <Navbar />
       </div>
       <div className="pt-2">

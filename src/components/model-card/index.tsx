@@ -1,44 +1,62 @@
-import React from "react";
+import { IModel } from "@/interfaces/IModel";
+import { StarIcon } from "@heroicons/react/24/outline";
+import { useMediaQuery } from "react-responsive";
 
-export type CardProps = {
-  modelName: string;
-  author: string;
-  detail: string;
-  description: string;
-  rating: number;
+export type Props = {
+  model: IModel;
 };
 
-const CardComponent: React.FC<CardProps> = (
-  { modelName, author, detail, description, rating },
+const ModelCardComponentLarge = (
+  { model }: Props,
 ) => {
   return (
     <div className="max-w-sm mr-4 rounded overflow-hidden shadow-lg p-6 mb-2 bg-white border-2">
-      <div className="font-bold text-xl mb-2">{modelName}</div>
-      <p>{author}</p>
-      <p>{detail}</p>
-      <p>{description}</p>
-
+      <div className="font-bold text-xl mb-2">{model.title}</div>
+      <p>Owner: {model.user}</p>
+      <p>Inferences: {model.inferences}</p>
       <div className="flex items-center mt-4">
-        <svg
-          className="w-5 h-5 fill-current text-yellow-500"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-        >
-          <path d="M10 .4l1.6 3.2c.1.2.3.4.5.4l3.5-.5c.2-.1 .4 .1 .5 .3l2.7 2.6c.1 .1 .1 .4-.1 .6L14 12c-.1 .2-.1 .4,.1,.6l3,.3c0,.2-.1,.4-.3,.5L13 17c-.2,.2-.3,.5-.2,.7l..8 3a..8a..8a..8a..8a..8a..8a..8a..8A9e9A9e9A9e9A9e9A9e9A9e9z" />
-        </svg>
-        <span className="ml-2">{rating}</span>
+        <StarIcon className="w-5 h-5 text-yellow-500" />
+        <span className="pt-1 ml-2">{model.ratings.stars}</span>
       </div>
     </div>
   );
 };
 
-interface GridProps {
-  cards: CardProps[];
-}
-const GridComponent: React.FC<GridProps> = ({ cards }) => {
+const ModelCardComponentSmall = (
+  { model }: Props,
+) => {
+  return (
+    <div className="flex rounded-lg shadow-lg p-6 mb-2 bg-white border-2 mr-5">
+        <div className="flex w-full justify-between">
+          <div className="flex flex-col justify-between">
+            <h1 className="text-2xl font-bold">{model.title}</h1>
+            <p className="text-sm">Owner: {model.user}</p>
+            <p className="text-sm">Inferences: {model.inferences}</p>
+          </div>
+          <div className="flex items-center mt-4">
+          <StarIcon className="w-5 h-5 text-yellow-500" />
+          <span className="pt-1 ml-2">{model.ratings.stars}</span>
+          </div>
+        </div>
+      </div>
+
+  )
+};
+
+export type GridProps = {
+  data: IModel[];
+};
+
+const GridComponent = ({data}: GridProps) => {
+  const isAboveMedium = useMediaQuery({ minWidth: 768 });
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {cards.map((card, index) => <CardComponent key={index} {...card} />)}
+      {Array.isArray(data) &&
+        data.map((model: IModel) => (
+          <div key={model.id}>
+            {isAboveMedium ? <ModelCardComponentLarge model={model} /> : <ModelCardComponentSmall model={model} />}
+          </div>
+        ))}
     </div>
   );
 };

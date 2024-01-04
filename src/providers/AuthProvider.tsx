@@ -13,7 +13,8 @@ interface AuthState {
 }
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [auth, setAuth] = useState<AuthState | null>(null);
+  const storedAuth = localStorage.getItem("auth");
+  const [auth, setAuth] = useState<AuthState | null>(storedAuth ? JSON.parse(storedAuth) : null);
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>

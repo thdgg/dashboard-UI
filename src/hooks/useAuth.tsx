@@ -1,6 +1,5 @@
 import { AuthContext } from "@/contexts/AuthContext";
 import { useContext, useEffect } from "react";
-import Cookies from "js-cookie";
 
 const useAuth = () => {
   const context = useContext(AuthContext);
@@ -11,7 +10,7 @@ const useAuth = () => {
 
   // Load auth state from cookies when component mounts
   useEffect(() => {
-    const storedAuth = Cookies.get("auth");
+    const storedAuth = localStorage.getItem("auth");
     if (storedAuth) {
       setAuth(JSON.parse(storedAuth));
     }
@@ -19,7 +18,7 @@ const useAuth = () => {
 
   // Save auth state to cookies whenever it changes
   useEffect(() => {
-    Cookies.set("auth", JSON.stringify(auth), { expires: 1 });
+    localStorage.setItem("auth", JSON.stringify(auth));
   }, [auth]);
 
   return { auth, setAuth };

@@ -33,8 +33,8 @@ const Authenticate = () => {
       {/* LOGIN AND REGISTER */}
       <div
         className={`${
-          isAboveMedium ? "w-3/5" : "h-3/4"
-        } p-10 flex flex-col items-center justify-center bg-black`}
+          isAboveMedium ? "w-3/5 h-full" : "h-6/7"
+        } ${isLogin ? "h-3/4" : ""} p-10 flex flex-col items-center justify-center bg-black`}
       >
         <div className="border-2 w-[400px] h-full flex flex-col rounded-3xl">
           <div className="flex mt-10 mb-5 text-xl font-light justify-center gap-10">

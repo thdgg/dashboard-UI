@@ -8,7 +8,10 @@ import { Link, useLocation } from "react-router-dom";
 import { NavBarData } from "./NavBarData";
 import { useMediaQuery } from "react-responsive";
 import React, { useEffect, useRef, useState } from "react";
-import SubmissionBox from "../submissonbox";
+import DatasetSubmissionBox from "../submissionbox/dataset";
+import ModelSubmissionBox from "../submissionbox/model";
+
+
 
 const Navbar = React.memo(() => {
   const flexBetween = "flex justify-start items-center";
@@ -16,6 +19,9 @@ const Navbar = React.memo(() => {
   const [selectedMenuItem, setSelectedMenuItem] = useState<number>(0);
   const [isAddMenuVisible, setIsAddMenuVisible] = useState<boolean>(false);
   const [isNewModelWindowVisible, setIsNewModelWindowVisible] = useState<
+    boolean
+  >(false);
+  const [isNewDatasetWindowVisible, setIsNewDatasetWindowVisible] = useState<
     boolean
   >(false);
 
@@ -59,8 +65,13 @@ const Navbar = React.memo(() => {
   return (
     <div>
       {isNewModelWindowVisible && (
-        <SubmissionBox
+        <ModelSubmissionBox
           setIsNewModelWindowVisible={setIsNewModelWindowVisible}
+        />
+      )}
+      {isNewDatasetWindowVisible && (
+        <DatasetSubmissionBox
+          setIsNewModelWindowVisible={setIsNewDatasetWindowVisible}
         />
       )}
 
@@ -114,7 +125,10 @@ const Navbar = React.memo(() => {
                         <PuzzlePieceIcon className="h-7 w-7 mr-2" />
                         New Model
                       </button>
-                      <button className="flex text-md w-full hover:bg-gray-200 p-2">
+                      <button 
+                        className="flex text-md w-full hover:bg-gray-200 p-2"
+                        onClick={() => setIsNewDatasetWindowVisible(true)}
+                      >
                         <CircleStackIcon className="h-7 w-7 mr-2" />
                         New Dataset
                       </button>

@@ -1,5 +1,5 @@
 import Explorer from "./screens/explorer/index.tsx";
-import Models from "./screens/models/index.tsx";
+import Models from "./screens/models/model-list/index.tsx";
 import Test from "./screens/test/index.tsx";
 import Datasets from "./screens/datasets/index.tsx";
 import Home from "./screens/home/index.tsx";
@@ -7,13 +7,12 @@ import Authenticate from "./screens/authenticate/index.tsx";
 import useAuth from "./hooks/useAuth.tsx";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import UserProfile from "./screens/user-profile/index.tsx";
 import Settings from "./screens/settings/index.tsx";
 import SignOut from "./screens/signout/index.tsx";
+import UserProfile from "./screens/users/user-profile/index.tsx";
 
 const App = () => {
   const { auth } = useAuth();
-  console.log(auth);
   const navigate = useNavigate();
 
   useEffect(() => {

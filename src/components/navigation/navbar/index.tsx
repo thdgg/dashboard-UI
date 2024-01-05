@@ -8,8 +8,9 @@ import { Link, useLocation } from "react-router-dom";
 import { NavBarData } from "./NavBarData";
 import { useMediaQuery } from "react-responsive";
 import React, { useEffect, useRef, useState } from "react";
-import DatasetSubmissionBox from "../submissionbox/dataset";
-import ModelSubmissionBox from "../submissionbox/model";
+import ModelSubmissionBox from "@/components/submissionbox/model";
+import DatasetSubmissionBox from "@/components/submissionbox/dataset";
+
 
 
 

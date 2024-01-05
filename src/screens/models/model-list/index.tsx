@@ -1,7 +1,7 @@
 import Container from "@/components/container";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { ModelData } from "./ModelData";
-import Model from "@/components/model";
+import { ModelData } from "../ModelData";
+import Model from "@/components/models/model";
 import { IModel } from "@/interfaces/IModel";
 
 const Models = () => {

@@ -1,7 +1,8 @@
 import Container from "@/components/container";
-import GridComponent from "@/components/model-card";
+
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { ModelData } from "../models/ModelData";
+import GridComponent from "@/components/models/model-card";
 
 const Explorer = () => {
   return (

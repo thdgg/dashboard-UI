@@ -1,8 +1,9 @@
 import { ReactNode } from "react";
-import Navbar from "@/components/navbar";
-import Searchbar from "@/components/searchbar";
 import { useMediaQuery } from "react-responsive";
-import Sidebar from "../sidebar";
+import Navbar from "../navigation/navbar";
+import Searchbar from "../navigation/searchbar";
+import Sidebar from "../navigation/sidebar";
+
 
 interface LayoutProps {
   children: ReactNode;

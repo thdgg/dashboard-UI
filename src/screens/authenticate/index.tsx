@@ -1,5 +1,6 @@
-import Login from "@/components/login";
-import Register from "@/components/register";
+
+import Login from "@/components/authenticate/login";
+import Register from "@/components/authenticate/register";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 

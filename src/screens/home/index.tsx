@@ -3,6 +3,8 @@ import Container from "@/components/container";
 import useAuth from "@/hooks/useAuth";
 import useAxios from "@/hooks/useAxios";
 import { useEffect } from "react";
+import { HomeData } from "./HomeData";
+import Counter from "@/components/counter";
 
 const Home = () => {
   const { auth } = useAuth();
@@ -17,13 +19,14 @@ const Home = () => {
       },
     },
   });
+  console.log("/users/profile?username=" + auth?.userName);
 
   useEffect(() => {
     if (response.data) {
       setAuth({
         token: auth!.token,
         userName: auth!.userName,
-        role: response.data.roles,
+        role: response.data.role,
       });
  
     }
@@ -31,7 +34,19 @@ const Home = () => {
 
   return (
     <Container>
-      <h1 className="text-5xl font-bold">Welcome, {auth?.role} {auth?.userName}</h1>
+      <div>
+        <h1 className="text-5xl font-bold">Welcome, {auth?.userName}</h1>
+        <div className="flex gap-3 mt-10">
+          {HomeData.map((data, index) => (
+            <span className="" key={index}>
+              <Counter data={data} />
+            </span>
+          ))
+          }
+        </div>
+        
+      </div>
+      
     </Container>
   );
 };

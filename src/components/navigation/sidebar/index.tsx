@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { ProfileData } from "./ProfileData";
+import { SidebarData } from "./SidebarData";
 import { Link } from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
 
@@ -68,7 +68,7 @@ const Sidebar = () => {
             <hr />
             <div>
               <ul>
-                {ProfileData.map((item, index) => {
+                {SidebarData.map((item, index) => {
                   return (
                     <Link
                       to={item.path}

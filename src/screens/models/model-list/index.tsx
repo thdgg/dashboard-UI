@@ -30,7 +30,7 @@ const Models = () => {
       {/* MODELS */}
       {Array.isArray(ModelData) &&
         ModelData.map((model: IModel) => (
-          <div key={model.id}>
+          <div key={model.id} className="w-full mr-4 mb-2 ">
             <Model model={model} onDelete={handleDelete} onEdit={handleEdit} />
           </div>
         ))}

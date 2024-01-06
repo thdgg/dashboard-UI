@@ -68,11 +68,11 @@ const Models = ({ model, onEdit, onDelete }: Props) => {
 
   return (
     <div
-      className={`border-2 rounded-lg mt-2 w-5/6 ${
-        isDropdownActive ? "" : "hover:bg-gray-100"
+      className={`border-2 rounded-lg mt-2 w-full bg-white ${
+        isDropdownActive ? "" : "hover:bg-gray-200"
       }`}
     >
-      <div className="flex p-3 rounded-lg">
+      <div className="flex p-3 rounded-lg w-full shadow-lg p-6">
         <div className="flex w-full justify-between">
           <div className="flex flex-col justify-between">
             <h1 className="text-2xl font-bold">{model.title}</h1>

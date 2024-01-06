@@ -26,35 +26,36 @@ const ModelCardComponentSmall = (
   { model }: Props,
 ) => {
   return (
-    <div className="flex rounded-lg shadow-lg p-6 mb-2 bg-white border-2 mr-5">
-        <div className="flex w-full justify-between">
-          <div className="flex flex-col justify-between">
-            <h1 className="text-2xl font-bold">{model.title}</h1>
-            <p className="text-sm">Owner: {model.user}</p>
-            <p className="text-sm">Inferences: {model.inferences}</p>
-          </div>
-          <div className="flex items-center mt-4">
+    <div className="flex rounded-lg shadow-lg p-6 mb-2 bg-white border-2 mr-4">
+      <div className="flex w-full justify-between">
+        <div className="flex flex-col justify-between">
+          <h1 className="text-2xl font-bold">{model.title}</h1>
+          <p className="text-sm">Owner: {model.user}</p>
+          <p className="text-sm">Inferences: {model.inferences}</p>
+        </div>
+        <div className="flex items-center mt-4">
           <StarIcon className="w-5 h-5 text-yellow-500" />
           <span className="pt-1 ml-2">{model.ratings.stars}</span>
-          </div>
         </div>
       </div>
-
-  )
+    </div>
+  );
 };
 
 export type GridProps = {
   data: IModel[];
 };
 
-const GridComponent = ({data}: GridProps) => {
+const GridComponent = ({ data }: GridProps) => {
   const isAboveMedium = useMediaQuery({ minWidth: 768 });
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
       {Array.isArray(data) &&
         data.map((model: IModel) => (
           <div key={model.id}>
-            {isAboveMedium ? <ModelCardComponentLarge model={model} /> : <ModelCardComponentSmall model={model} />}
+            {isAboveMedium
+              ? <ModelCardComponentLarge model={model} />
+              : <ModelCardComponentSmall model={model} />}
           </div>
         ))}
     </div>

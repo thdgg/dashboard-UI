@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import Settings from "./screens/settings/index.tsx";
 import SignOut from "./screens/signout/index.tsx";
 import UserProfile from "./screens/users/user-profile/index.tsx";
+import UserManagement from "./screens/users/user-management/index.tsx";
 
 const App = () => {
   const { auth } = useAuth();
@@ -26,6 +27,7 @@ const App = () => {
       {auth?.token
         ? (
           <>
+            <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/explorer" element={<Explorer />} />
             <Route path="/datasets" element={<Datasets />} />
@@ -34,6 +36,7 @@ const App = () => {
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/signout" element={<SignOut />} />
+            <Route path="/user-management" element={<UserManagement />} />
           </>
         )
         : <Route path="/authenticate" element={<Authenticate />} />}

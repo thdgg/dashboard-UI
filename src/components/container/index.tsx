@@ -4,7 +4,6 @@ import Navbar from "../navigation/navbar";
 import Searchbar from "../navigation/searchbar";
 import Sidebar from "../navigation/sidebar";
 
-
 interface LayoutProps {
   children: ReactNode;
 }
@@ -27,7 +26,11 @@ const Container = ({ children }: LayoutProps) => {
         </div>
       </div>
 
-      <div className={` ${isAboveMedium ? "ml-32" : "ml-16"} mt-16`}>
+      <div
+        className={`flex flex-col justify-center items-center ${
+          isAboveMedium ? "ml-32" : "ml-6"
+        } mt-16`}
+      >
         {children}
       </div>
     </div>

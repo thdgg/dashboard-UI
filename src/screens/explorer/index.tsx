@@ -19,7 +19,7 @@ const Explorer = () => {
           <ChevronDownIcon className="w-4 h-4 mt-1" />
         </button>
       </div>
-      <div className="mt-8">
+      <div className="mt-8 w-full">
         <div className="space-y-2">
           <GridComponent data={ModelData} />
           <GridComponent data={ModelData} />

@@ -3,8 +3,10 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { ModelData } from "../ModelData";
 import Model from "@/components/models/model";
 import { IModel } from "@/interfaces/IModel";
+import { useMediaQuery } from "react-responsive";
 
 const Models = () => {
+  const isAboveMedium = useMediaQuery({ minWidth: 768 });
   const handleEdit = (model: IModel) => {
     console.log(model);
   };
@@ -30,7 +32,7 @@ const Models = () => {
       {/* MODELS */}
       {Array.isArray(ModelData) &&
         ModelData.map((model: IModel) => (
-          <div key={model.id} className="w-full mr-4 mb-2 ">
+          <div key={model.id} className={`mr-4 mb-2 ${isAboveMedium ? "w-3/4": "w-full"}`}>
             <Model model={model} onDelete={handleDelete} onEdit={handleEdit} />
           </div>
         ))}

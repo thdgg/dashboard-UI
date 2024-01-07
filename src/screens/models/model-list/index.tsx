@@ -49,6 +49,27 @@ const Models = () => {
     });
   };
 
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
+    if (searchValue) {
+      const filteredModels = ModelData.filter(
+        (model) =>
+          model.title.toLowerCase().includes(searchValue.toLowerCase()) 
+          // model.user.toLowerCase().includes(searchValue.toLowerCase())
+      );
+      setModels(filteredModels);
+    } else {
+      setModels(ModelData);
+    }
+  };
+  
+  const resetInput = () => {
+    const searchInput = document.getElementById('search') as HTMLInputElement;
+    searchInput.value = '';
+    setModels(ModelData);
+  };
+
+
   return (
     <Container>
       <h1 className="text-5xl font-bold">Models</h1>
@@ -66,6 +87,7 @@ const Models = () => {
               type="text"
               id="search"
               placeholder="Search something.."
+              onChange={handleSearch}
             />
           </div>
         </div>
@@ -91,15 +113,22 @@ const Models = () => {
       </div>
       {/* MODELS */}
       <div className="flex flex-col justify-center items-center w-5/6 mt-6">
-      {Array.isArray(models) &&
-        models.map((model: IModel) => (
-          <div key={model.id} className={`mx-20 mb-4 ${isAboveMedium ? "w-3/4": "w-full"}`}>
-            <Link to={`/models/${model.id}`}>
-              <Model model={model} onDelete={handleDelete} onEdit={handleEdit} />
-            </Link>
+        {models.length === 0 ? (
+          <div className="flex flex-col justify-center items-center w-full ">
+            <h1 className="text-2xl">No result found</h1>
+            <p>To see more results, try other inputs</p>
+            <button className=" w-32 h-16 p-3 text-xl border-2 rounded-full gap-2 hover:bg-gray-100 bg-white mt-2" onClick={resetInput}>Reset</button>
           </div>
-
-        ))}
+        ) : (
+          Array.isArray(models) &&
+          models.map((model: IModel) => (
+            <div key={model.id} className={`mx-20 mb-4 ${isAboveMedium ? "w-3/4": "w-full"}`}>
+              <Link to={`/models/${model.id}`}>
+                <Model model={model} onDelete={handleDelete} onEdit={handleEdit} />
+              </Link>
+            </div>
+          ))
+        )}
       </div>
       
     </Container>

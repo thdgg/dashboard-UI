@@ -7,14 +7,18 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import { ModelData } from "../models/ModelData";
-import GridComponent from "@/components/models/model-card";
 import { useState } from "react";
 import { IModel } from "@/interfaces/IModel";
+import { Link } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
+import ModelCardLarge from "@/components/models/model-card-large";
+import ModelCardSmall from "@/components/models/model-card-small";
 
 const Explorer = () => {
   const [models, setModels] = useState<IModel[]>(ModelData);
   const [sortOrder, setSortOrder] = useState(0); // 1 for ascending, -1 for descending\
-
+  const isAboveMedium = useMediaQuery({ minWidth: 768 });
+  
   const handleStarsSort = () => {
     setSortOrder((prev) => {
       const newOrder = prev === 1 ? -1 : prev === -1 ? 0 : 1;
@@ -27,6 +31,26 @@ const Explorer = () => {
       );
       return newOrder;
     });
+  };
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
+    if (searchValue) {
+      const filteredModels = ModelData.filter(
+        (model) =>
+          model.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+          model.user.toLowerCase().includes(searchValue.toLowerCase())
+      );
+      setModels(filteredModels);
+    } else {
+      setModels(ModelData);
+    }
+  };
+  
+  const resetInput = () => {
+    const searchInput = document.getElementById('search') as HTMLInputElement;
+    searchInput.value = '';
+    setModels(ModelData);
   };
 
   return (
@@ -45,6 +69,7 @@ const Explorer = () => {
               type="text"
               id="search"
               placeholder="Search something.."
+              onChange={handleSearch}
             />
           </div>
         </div>
@@ -69,7 +94,27 @@ const Explorer = () => {
         </div>
       </div>
       <div className="mt-8 mr-5 w-3/4">
-        <GridComponent data={models} isSorted={sortOrder} />
+      <div className="flex flex-wrap justify-start items-start">
+      {models.length === 0 ? (
+        <div className="flex flex-col justify-center items-center w-full ">
+            <h1 className="text-2xl">No result found</h1>
+            <p>To see more results, try other inputs</p>
+            <button className=" w-32 h-16 p-3 text-xl border-2 rounded-full gap-2 hover:bg-gray-100 bg-white mt-2" onClick={resetInput}>Reset</button>
+        </div>
+      
+    ) : (
+      Array.isArray(models) &&
+      models.map((model: IModel) => (
+        <div key={model.id} className={`p-2 ${sortOrder ? 'w-full' : 'w-full sm:w-1/2 lg:w-1/3'}`}>
+          <Link to={`/models/${model.id}`}>
+            {isAboveMedium && sortOrder
+              ? <ModelCardLarge model={model} />
+              : <ModelCardSmall model={model} />}
+          </Link>
+        </div>
+      ))
+    )}
+    </div>
       </div>
     </Container>
   );

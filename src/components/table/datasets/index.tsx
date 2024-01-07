@@ -31,7 +31,7 @@ const TableDatasets = () => {
   const [datasetsresponse, datasetsError, userLoading, userRefetch] = useAxios({
     axiosInstance: UserDashboardAI,
     method: "get",
-    url: "/resources",
+    url: "/resources/user_id/" + auth?.userId,
     requestConfig: {
       headers: {
         Authorization: `Bearer ${auth?.token}`,
@@ -69,10 +69,10 @@ const TableDatasets = () => {
       header: "Filepath",
       accessorKey: "filepath",
     },
-    {
-      header: "Role",
-      accessorKey: "role",
-    },
+    // {
+    //   header: "Role",
+    //   accessorKey: "role",
+    // },
     {
       header: "Created At",
       accessorKey: "createTime",
@@ -148,7 +148,7 @@ const TableDatasets = () => {
   });
 
   return (
-    <div className="overflow-auto">
+    <div className="overflow-auto mr-5">
       {showAlert &&
         (
           <ConfirmAlertBox

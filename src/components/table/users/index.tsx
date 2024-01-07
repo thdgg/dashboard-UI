@@ -1,8 +1,11 @@
 import UserDashboardAI from "@/apis/UserDashboardAI";
+import EditUserBox from "@/components/editbox/user";
 import ConfirmAlertBox from "@/components/notification/confirm";
 import useAuth from "@/hooks/useAuth";
 import useAxios from "@/hooks/useAxios";
 import useAxiosFunction from "@/hooks/useAxiosFunction";
+import { IUser } from "@/interfaces/IUser";
+
 import {
   ArrowLongDownIcon,
   ArrowLongUpIcon,
@@ -21,13 +24,19 @@ import {
 } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 
-
 const TableUsers = () => {
   const { auth } = useAuth();
   const [deleteUserResponse, deleteUserError, deleteUserLoading, deleteUserAF] =
     useAxiosFunction();
+
+  const [updateUserResponse, updateUserError, updateUserLoading, updateUserAF] =
+    useAxiosFunction();
+  
   const [showAlert, setShowAlert] = useState(false);
   const [rowToDelete, setRowToDelete] = useState<Row<any> | null>(null);
+  const [isEditBoxVisible, setIsEditBoxVisible] = useState(false);
+  const [currentUserData, setCurrentUserData] = useState<IUser>();
+
   const [usersresponse, usersError, userLoading, userRefetch] = useAxios({
     axiosInstance: UserDashboardAI,
     method: "get",
@@ -82,7 +91,10 @@ const TableUsers = () => {
       accessorKey: "actions",
       cell: ({ row }: any) => (
         <div className="flex gap-2">
-          <button className="border border-gray-300 p-2 rounded-md hover:bg-gray-300">
+          <button
+            onClick={() => handleEditClick(row.original)}
+            className="border border-gray-300 p-2 rounded-md hover:bg-gray-300"
+          >
             Edit
           </button>
           <button
@@ -106,7 +118,7 @@ const TableUsers = () => {
     // If the value is true, proceed with the deletion
     if (value && rowToDelete) {
       console.log(rowToDelete.original.username);
-      setData(data.filter((item) => item.id !== rowToDelete.original.id));
+      setData(data.filter((item: any) => item.id !== rowToDelete.original.id));
       deleteUserAF({
         axiosInstance: UserDashboardAI,
         method: "delete",
@@ -118,9 +130,40 @@ const TableUsers = () => {
         },
       });
     }
-
     // Hide the alert
     setShowAlert(false);
+  };
+
+  const handleEditClick = (userData: any) => {
+    setCurrentUserData(userData);
+    setIsEditBoxVisible(true);
+  };
+
+  const handleEditBoxSave = () => {
+    console.log(currentUserData);
+    // make sure nothing is empty
+    setIsEditBoxVisible(false);
+    if (currentUserData) {
+      updateUserAF({
+        axiosInstance: UserDashboardAI,
+        method: "put",
+        url: "/users/update?id=" + currentUserData.id,
+        requestConfig: {
+          headers: {
+            Authorization: `Bearer ${auth?.token}`,
+          },
+          data : {
+            roles: currentUserData.role,
+            userDetail: {
+              firstname: currentUserData.firstname,
+              lastname: currentUserData.lastname,
+              email: currentUserData.email,
+            },
+          },
+        },
+      });
+    }
+    
   };
 
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -148,7 +191,14 @@ const TableUsers = () => {
   });
 
   return (
-    <div className="overflow-auto">
+    <div className="overflow-auto md:mx-26 max-w-[1000px]:mx-96">
+      {isEditBoxVisible && (
+        <EditUserBox
+          userData={currentUserData}
+          handleEditBoxSave={handleEditBoxSave}
+          setIsEditBoxVisible={setIsEditBoxVisible}
+        />
+      )}
       {showAlert &&
         (
           <ConfirmAlertBox
@@ -159,7 +209,7 @@ const TableUsers = () => {
         )}
       <div className="relative w-full min-w-[200px] h-10 mt-5">
         <input
-          id="model-title"
+          id="filter"
           type="text"
           value={filtering}
           onChange={(e) => setFiltering(e.target.value)}
@@ -167,7 +217,7 @@ const TableUsers = () => {
           placeholder=" "
         />
         <label
-          htmlFor="model-title"
+          htmlFor="filters"
           className="flex w-80 h-full border-gray-800 select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-gray-500 peer-focus:text-gray-900 before:border-blue-gray-200 peer-focus:before:!border-gray-900 after:border-blue-gray-200 peer-focus:after:!border-gray-900"
         >
           Filter

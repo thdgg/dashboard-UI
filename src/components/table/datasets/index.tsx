@@ -31,7 +31,8 @@ const TableDatasets = () => {
   const [datasetsresponse, datasetsError, userLoading, userRefetch] = useAxios({
     axiosInstance: UserDashboardAI,
     method: "get",
-    url: "/resources/user_id/" + auth?.userId,
+    // url: "/resources/user_id/" + auth?.userId,
+    url: "/resources/",
     requestConfig: {
       headers: {
         Authorization: `Bearer ${auth?.token}`,

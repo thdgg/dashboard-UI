@@ -123,9 +123,9 @@ const Models = () => {
           Array.isArray(models) &&
           models.map((model: IModel) => (
             <div key={model.id} className={`mx-20 mb-4 ${isAboveMedium ? "w-3/4": "w-full"}`}>
-              <Link to={`/models/${model.id}`}>
+              {/* <Link to={`/models/${model.id}`}> */}
                 <Model model={model} onDelete={handleDelete} onEdit={handleEdit} />
-              </Link>
+              {/* </Link> */}
             </div>
           ))
         )}

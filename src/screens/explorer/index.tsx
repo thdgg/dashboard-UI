@@ -93,7 +93,7 @@ const Explorer = () => {
           </button>
         </div>
       </div>
-      <div className="mt-8 mr-5 w-3/4">
+      <div className="mt-8 mx-16">
       <div className="flex flex-wrap justify-start items-start">
       {models.length === 0 ? (
         <div className="flex flex-col justify-center items-center w-full ">
@@ -105,11 +105,12 @@ const Explorer = () => {
     ) : (
       Array.isArray(models) &&
       models.map((model: IModel) => (
-        <div key={model.id} className={`p-2 ${sortOrder ? 'w-full' : 'w-full sm:w-1/2 lg:w-1/3'}`}>
+        <div key={model.id} className={`p-2 ${isAboveMedium ? 'md:w-1/2 lg:w-1/4' : 'w-full '}`}>
           <Link to={`/models/${model.id}`}>
-            {isAboveMedium && sortOrder
-              ? <ModelCardLarge model={model} />
-              : <ModelCardSmall model={model} />}
+            {(!isAboveMedium || sortOrder !== 0)
+              ? <ModelCardSmall model={model} />
+              : <ModelCardLarge model={model} />
+            }
           </Link>
         </div>
       ))

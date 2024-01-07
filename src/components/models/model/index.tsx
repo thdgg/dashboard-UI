@@ -1,6 +1,7 @@
 import { IModel } from "@/interfaces/IModel";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 type Props = {
   model: IModel;
@@ -68,49 +69,54 @@ const Models = ({ model, onEdit, onDelete }: Props) => {
 
   return (
     <div
-      className={`border-2 rounded-lg mt-2 w-full bg-white ${
+      className={`border-2 rounded-lg mt-2 w-full bg-white relative ${
         isDropdownActive ? "" : "hover:bg-gray-200"
       }`}
     >
-      <div className="flex rounded-lg w-full shadow-lg p-6">
-        <div className="flex w-full justify-between">
-          <div className="flex flex-col justify-between">
+      <Link to={`/models/${model.id}`}>
+        <div className="flex justify-between rounded-lg w-full shadow-lg p-6">
+          <div className="flex flex-col">
             <h1 className="text-2xl font-bold">{model.title}</h1>
             <p className="text-sm">Inferences: {model.inferences}</p>
             <p className="text-sm">Star: {model.ratings.stars}</p>
             <p className="text-sm">Owner: {model.user}</p>
           </div>
-          <button
-            className="flex justify-center items-center"
-            onClick={() => toggleItemSettings(model.id)}
-          >
-            <EllipsisVerticalIcon className="w-8 h-8" />
-          </button>
-          {openItemIndex === model.id && (
-            <div
-              ref={dropdownRef}
-              className="flex flex-col justify-start items-start absolute w-28 h-auto p-2 bg-white border-2 rounded-lg"
-              onMouseEnter={() => setIsDropdownActive(true)}
-              onMouseLeave={() => setIsDropdownActive(false)}
-            >
-              <button
-                className="text-sm w-full hover:bg-gray-200"
-                onClick={handleEditClick}
-              >
-                Edit
-              </button>
-              <button
-                className="text-sm w-full hover:bg-gray-200"
-                onClick={handleDeleteClick}
-              >
-                Delete
-              </button>
-            </div>
-          )}
         </div>
+      </Link>
+      <div className="flex justify-end pr-6 absolute bottom-12 right-0">
+        {openItemIndex === model.id && (
+          <div
+            ref={dropdownRef}
+            className="flex flex-col justify-start items-start w-28 h-auto p-2 bg-white border-2 rounded-lg"
+            onMouseEnter={() => setIsDropdownActive(true)}
+            onMouseLeave={() => setIsDropdownActive(false)}
+          >
+            <button
+              className="text-sm w-full hover:bg-gray-200"
+              onClick={handleEditClick}
+            >
+              Edit
+            </button>
+            <button
+              className="text-sm w-full hover:bg-gray-200"
+              onClick={handleDeleteClick}
+            >
+              Delete
+            </button>
+          </div>
+        )}
+        <button
+          className="flex justify-center items-center"
+          onClick={(e) => {
+            e.preventDefault();
+            toggleItemSettings(model.id);
+          }}
+        >
+          <EllipsisVerticalIcon className="w-8 h-8" />
+        </button>
+        
       </div>
     </div>
   );
-};
-
+}
 export default Models;

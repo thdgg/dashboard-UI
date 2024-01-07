@@ -4,12 +4,34 @@ import { ModelData } from "../ModelData";
 import Model from "@/components/models/model";
 import { IModel } from "@/interfaces/IModel";
 import { useMediaQuery } from "react-responsive";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import useAxios from "@/hooks/useAxios";
+import UserDashboardAI from "@/apis/UserDashboardAI";
+import useAuth from "@/hooks/useAuth";
 
 const Models = () => {
+  const { auth } = useAuth();
   const isAboveMedium = useMediaQuery({ minWidth: 768 });
   const [models, setModels] = useState<IModel[]>(ModelData);
   const [sortOrder, setSortOrder] = useState(0); // 1 for ascending, -1 for descending
+
+  const [modelsResponse, modelsError, modelsLoading, modelsRefetch] = useAxios({
+    axiosInstance: UserDashboardAI,
+    method: "get",
+    url: "/models",
+    requestConfig: {
+      headers: {
+        Authorization: `Bearer ${auth?.token}`,
+      },
+    },
+  });
+
+  useEffect(() => {
+    if (modelsResponse?.data) {
+      console.log(modelsResponse.data);
+    }
+  }, [modelsResponse]);
 
   const handleEdit = (model: IModel) => {
     console.log(model);
@@ -72,8 +94,11 @@ const Models = () => {
       {Array.isArray(models) &&
         models.map((model: IModel) => (
           <div key={model.id} className={`mx-20 mb-4 ${isAboveMedium ? "w-3/4": "w-full"}`}>
-            <Model model={model} onDelete={handleDelete} onEdit={handleEdit} />
+            <Link to={`/models/${model.id}`}>
+              <Model model={model} onDelete={handleDelete} onEdit={handleEdit} />
+            </Link>
           </div>
+
         ))}
       </div>
       

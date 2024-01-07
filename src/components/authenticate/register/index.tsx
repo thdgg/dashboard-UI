@@ -62,7 +62,7 @@ const Register = () => {
         data: {
           username: username,
           password: password,
-          userDetails: {
+          userDetail: {
             firstname: firstname,
             lastname: lastname,
             email: email,

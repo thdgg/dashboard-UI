@@ -1,16 +1,18 @@
 import { IModel } from "@/interfaces/IModel";
 import { StarIcon } from "@heroicons/react/24/outline";
 import { useMediaQuery } from "react-responsive";
+import { Link } from "react-router-dom";
 
 export type Props = {
   model: IModel;
 };
 
-const ModelCardComponentLarge = (
-  { model }: Props,
-) => {
+const ModelCardComponentLarge = ({ model }: Props) => {
+  const isAboveMedium = useMediaQuery({ minWidth: 768 });
   return (
-    <div className="max-w-sm mr-4 rounded overflow-hidden shadow-lg p-6 mb-2 bg-white border-2">
+    <div className={`max-w-sm mr-4 rounded overflow-hidden shadow-lg p-6 mb-2 bg-white border-2 ${
+      isAboveMedium ? "w-full" : "w-full"
+    }`}>
       <div className="font-bold text-xl mb-2">{model.title}</div>
       <p>Owner: {model.user}</p>
       <p>Inferences: {model.inferences}</p>
@@ -55,12 +57,17 @@ const GridComponent = ({ data, isSorted }: GridProps) => {
 
   if (isSorted) {
     return (
-      <div className="flex flex-col justify-center items-center">
+      <div>        
         {Array.isArray(data) &&
           data.map((model: IModel) => (
-            <ModelCardComponentSmall key={model.id} model={model} />
+            <Link to={`/models/${model.id}`}>
+            <div className="flex flex-col justify-center items-center">
+              <ModelCardComponentSmall key={model.id} model={model} />
+            </div>
+            </Link>
           ))}
       </div>
+
     );
   }
 
@@ -69,9 +76,11 @@ const GridComponent = ({ data, isSorted }: GridProps) => {
       {Array.isArray(data) &&
         data.map((model: IModel) => (
           <div key={model.id}>
+            <Link to={`/models/${model.id}`}>
             {isAboveMedium
               ? <ModelCardComponentLarge model={model} />
               : <ModelCardComponentSmall model={model} />}
+            </Link>
           </div>
         ))}
     </div>

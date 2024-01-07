@@ -1,5 +1,6 @@
 import Container from "@/components/container";
-import Table from "@/components/table";
+import TableUsers from "@/components/table/users";
+
 import { useMediaQuery } from "react-responsive";
 
 const UserManagement = () => {
@@ -8,7 +9,7 @@ const UserManagement = () => {
     <Container>
       <h1 className="text-5xl font-bold">User Management</h1>
       <div className={`flex gap-3 mt-10 ${isAboveMedium ? "":  " ml-0 w-5/6"}`}>
-        <Table />
+        <TableUsers />
       </div>
     </Container>
   );

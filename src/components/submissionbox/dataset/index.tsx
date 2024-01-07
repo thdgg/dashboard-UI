@@ -13,6 +13,7 @@ const DatasetSubmissionBox = (props: Props) => {
     if (event.target.files && event.target.files.length > 0) {
       const files = Array.from(event.target.files);
       setFiles(files);
+      console.log(files);
     }
   };
 

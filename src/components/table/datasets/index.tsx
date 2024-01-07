@@ -1,4 +1,5 @@
 import UserDashboardAI from "@/apis/UserDashboardAI";
+import ConfirmAlertBox from "@/components/notification/confirm";
 import useAuth from "@/hooks/useAuth";
 import useAxios from "@/hooks/useAxios";
 import useAxiosFunction from "@/hooks/useAxiosFunction";
@@ -19,18 +20,18 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
-import ConfirmAlertBox from "../notification/confirm";
 
-const Table = () => {
+
+const TableDatasets = () => {
   const { auth } = useAuth();
   const [deleteUserResponse, deleteUserError, deleteUserLoading, deleteUserAF] =
     useAxiosFunction();
   const [showAlert, setShowAlert] = useState(false);
   const [rowToDelete, setRowToDelete] = useState<Row<any> | null>(null);
-  const [usersresponse, usersError, userLoading, userRefetch] = useAxios({
+  const [datasetsresponse, datasetsError, userLoading, userRefetch] = useAxios({
     axiosInstance: UserDashboardAI,
     method: "get",
-    url: "/users",
+    url: "/resources",
     requestConfig: {
       headers: {
         Authorization: `Bearer ${auth?.token}`,
@@ -38,14 +39,14 @@ const Table = () => {
     },
   });
 
-  const [data, setData] = useState(usersresponse?.data);
+  const [data, setData] = useState(datasetsresponse?.data);
 
   useEffect(() => {
-    if (usersresponse) {
-      setData(usersresponse.data);
+    if (datasetsresponse) {
+      setData(datasetsresponse.data);
     }
     console.log(data);
-  }, [usersresponse]);
+  }, [datasetsresponse]);
 
   const columns = [
     {
@@ -53,8 +54,8 @@ const Table = () => {
       accessorKey: "id",
     },
     {
-      header: "Username",
-      accessorKey: "username",
+      header: "Type",
+      accessorKey: "type",
     },
     {
       header: "First Name",
@@ -65,8 +66,8 @@ const Table = () => {
       accessorKey: "lastname",
     },
     {
-      header: "Email",
-      accessorKey: "email",
+      header: "Filepath",
+      accessorKey: "filepath",
     },
     {
       header: "Role",
@@ -282,4 +283,4 @@ const Table = () => {
   );
 };
 
-export default Table;
+export default TableDatasets;

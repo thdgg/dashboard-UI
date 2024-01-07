@@ -22,11 +22,14 @@ const ModelCardComponentLarge = (
   );
 };
 
-const ModelCardComponentSmall = (
-  { model }: Props,
-) => {
+const ModelCardComponentSmall = ({ model }: Props) => {
+  const isAboveMedium = useMediaQuery({ minWidth: 768 });
   return (
-    <div className="flex rounded-lg shadow-lg p-6 mb-2 bg-white border-2 mr-4">
+    <div
+      className={` flex ${
+        isAboveMedium ? "w-3/4" : "w-full"
+      } rounded-lg shadow-lg p-6 mb-2 bg-white border-2`}
+    >
       <div className="flex w-full justify-between">
         <div className="flex flex-col justify-between">
           <h1 className="text-2xl font-bold">{model.title}</h1>
@@ -44,10 +47,23 @@ const ModelCardComponentSmall = (
 
 export type GridProps = {
   data: IModel[];
+  isSorted?: number;
 };
 
-const GridComponent = ({ data }: GridProps) => {
+const GridComponent = ({ data, isSorted }: GridProps) => {
   const isAboveMedium = useMediaQuery({ minWidth: 768 });
+
+  if (isSorted) {
+    return (
+      <div className="flex flex-col justify-center items-center">
+        {Array.isArray(data) &&
+          data.map((model: IModel) => (
+            <ModelCardComponentSmall key={model.id} model={model} />
+          ))}
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
       {Array.isArray(data) &&

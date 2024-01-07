@@ -72,7 +72,7 @@ const Models = ({ model, onEdit, onDelete }: Props) => {
         isDropdownActive ? "" : "hover:bg-gray-200"
       }`}
     >
-      <div className="flex p-3 rounded-lg w-full shadow-lg p-6">
+      <div className="flex rounded-lg w-full shadow-lg p-6">
         <div className="flex w-full justify-between">
           <div className="flex flex-col justify-between">
             <h1 className="text-2xl font-bold">{model.title}</h1>

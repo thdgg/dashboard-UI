@@ -71,7 +71,9 @@ const Sidebar = () => {
                 {SidebarData.map((item, index) => {
                   return (
                     <Link
-                      to={item.path}
+                      to={item.path === "/profile"
+                        ? `${item.path}/${auth?.userName}`
+                        : item.path}
                       key={index}
                     >
                       <li

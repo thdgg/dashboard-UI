@@ -3,6 +3,8 @@ import ConfirmAlertBox from "@/components/notification/confirm";
 import useAuth from "@/hooks/useAuth";
 import useAxios from "@/hooks/useAxios";
 import useAxiosFunction from "@/hooks/useAxiosFunction";
+import { IDataset } from "@/interfaces/IDataset";
+
 import {
   ArrowLongDownIcon,
   ArrowLongUpIcon,
@@ -21,18 +23,26 @@ import {
 } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 
+type Props = {
+  userId: number;
+};
 
-const TableDatasets = () => {
+type Column = {
+  header: string;
+  accessorKey: string;
+  cell?: ({ row }: any) => JSX.Element;
+};
+
+const TableDatasets = ({ userId }: Props) => {
   const { auth } = useAuth();
   const [deleteUserResponse, deleteUserError, deleteUserLoading, deleteUserAF] =
     useAxiosFunction();
   const [showAlert, setShowAlert] = useState(false);
   const [rowToDelete, setRowToDelete] = useState<Row<any> | null>(null);
-  const [datasetsresponse, datasetsError, userLoading, userRefetch] = useAxios({
+  const [datasetsResponse, datasetsError, userLoading, userRefetch] = useAxios({
     axiosInstance: UserDashboardAI,
     method: "get",
-    // url: "/resources/user_id/" + auth?.userId,
-    url: "/resources/",
+    url: "/resources/user_id/" + userId,
     requestConfig: {
       headers: {
         Authorization: `Bearer ${auth?.token}`,
@@ -40,16 +50,21 @@ const TableDatasets = () => {
     },
   });
 
-  const [data, setData] = useState(datasetsresponse?.data);
+  console.log(datasetsResponse);
+
+  const [data, setData] = useState<IDataset[]>(datasetsResponse?.data);
 
   useEffect(() => {
-    if (datasetsresponse) {
-      setData(datasetsresponse.data);
+    if (datasetsResponse) {
+      let dataArray = Array.isArray(datasetsResponse.data)
+        ? datasetsResponse.data
+        : [datasetsResponse.data];
+      setData(dataArray);
     }
     console.log(data);
-  }, [datasetsresponse]);
+  }, [datasetsResponse]);
 
-  const columns = [
+  const columns: Column[] = [
     {
       header: "ID",
       accessorKey: "id",
@@ -58,27 +73,26 @@ const TableDatasets = () => {
       header: "Type",
       accessorKey: "type",
     },
-    {
-      header: "First Name",
-      accessorKey: "firstname",
-    },
-    {
-      header: "Last Name",
-      accessorKey: "lastname",
-    },
+    // {
+    //   header: "First Name",
+    //   accessorKey: "firstname",
+    // },
+    // {
+    //   header: "Last Name",
+    //   accessorKey: "lastname",
+    // },
     {
       header: "Filepath",
       accessorKey: "filepath",
     },
-    // {
-    //   header: "Role",
-    //   accessorKey: "role",
-    // },
     {
       header: "Created At",
       accessorKey: "createTime",
     },
-    {
+  ];
+
+  if (auth?.userId === userId.toString()) {
+    columns.push({
       header: "Actions",
       accessorKey: "actions",
       cell: ({ row }: any) => (
@@ -94,8 +108,8 @@ const TableDatasets = () => {
           </button>
         </div>
       ),
-    },
-  ];
+    });
+  }
 
   const handleDelete = (row: any) => {
     // Set the row to be deleted and show the alert
@@ -107,7 +121,7 @@ const TableDatasets = () => {
     // If the value is true, proceed with the deletion
     if (value && rowToDelete) {
       console.log(rowToDelete.original.username);
-      setData(data.filter((item) => item.id !== rowToDelete.original.id));
+      setData(data.filter((item: any) => item.id !== rowToDelete.original.id));
       deleteUserAF({
         axiosInstance: UserDashboardAI,
         method: "delete",
@@ -149,7 +163,7 @@ const TableDatasets = () => {
   });
 
   return (
-    <div className="overflow-auto mr-5">
+    <div className="">
       {showAlert &&
         (
           <ConfirmAlertBox
@@ -174,60 +188,65 @@ const TableDatasets = () => {
           Filter
         </label>
       </div>
-      <div className="max-h-screen">
-        <table className="w-full table-auto text-center my-2">
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    onClick={header.column.getToggleSortingHandler()}
-                    className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-5 active:bg-gray-300 focus:bg-gray-300 hover:bg-gray-300"
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : (
-                        <div className="flex items-center justify-center gap-2">
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
+      {data && Object.keys(data).length !== 0 && (
+        <div>
+          <div className="overflow-x-scroll">
+            <table className="w-full table-auto text-center">
+              <thead>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <th
+                        key={header.id}
+                        onClick={header.column.getToggleSortingHandler()}
+                        className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-5 active:bg-gray-300 focus:bg-gray-300 hover:bg-gray-300"
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : (
+                            <div className="flex items-center justify-center gap-2">
+                              {flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
+                              {header.column.getIsSorted() === false && (
+                                <ArrowsUpDownIcon className="h-5 w-5" />
+                              )}
+                              {header.column.getIsSorted() === "asc" && (
+                                <ArrowLongUpIcon className="h-5 w-5" />
+                              )}
+                              {header.column.getIsSorted() === "desc" && (
+                                <ArrowLongDownIcon className="h-5 w-5" />
+                              )}
+                            </div>
                           )}
-                          {header.column.getIsSorted() === false && (
-                            <ArrowsUpDownIcon className="h-5 w-5" />
-                          )}
-                          {header.column.getIsSorted() === "asc" && (
-                            <ArrowLongUpIcon className="h-5 w-5" />
-                          )}
-                          {header.column.getIsSorted() === "desc" && (
-                            <ArrowLongDownIcon className="h-5 w-5" />
-                          )}
-                        </div>
-                      )}
-                  </th>
+                      </th>
+                    ))}
+                  </tr>
                 ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr
-                key={row.id}
-                className="p-2 border-b border-blue-gray-50"
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className="p-1"
+              </thead>
+              <tbody>
+                {table.getRowModel().rows.map((row) => (
+                  <tr
+                    key={row.id}
+                    className="p-2 border-b border-blue-gray-50"
                   >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
+                    {row.getVisibleCells().map((cell) => (
+                      <td
+                        key={cell.id}
+                        className="p-1"
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </td>
+                    ))}
+                  </tr>
                 ))}
-              </tr>
-            ))}
-          </tbody>
-          {
-            /* <tfoot>
+              </tbody>
+              {
+                /* <tfoot>
         {table.getFooterGroups().map((footerGroup) => (
           <tr key={footerGroup.id}>
             {footerGroup.headers.map((header) => (
@@ -241,45 +260,47 @@ const TableDatasets = () => {
           </tr>
         ))}
       </tfoot> */
-          }
-        </table>
-      </div>
-      <div className="flex gap-5 mb-4">
-        <button
-          className="border border-gray-300 p-2 rounded-md hover:bg-gray-300"
-          onClick={() => table.setPageIndex(0)}
-        >
-          First Page
-        </button>
-        <button
-          disabled={!table.getCanPreviousPage()}
-          onClick={() => table.previousPage()}
-          className={`"border border-gray-300 p-2 rounded-md disabled:opacity-50 hover:bg-gray-300" ${
-            !table.getCanPreviousPage()
-              ? "disabled:opacity-50"
-              : "hover:bg-gray-300"
-          }`}
-        >
-          Previous Page
-        </button>
-        <button
-          disabled={!table.getCanNextPage()}
-          onClick={() => table.nextPage()}
-          className={`"border border-gray-300 p-2 rounded-md disabled:opacity-50 hover:bg-gray-300" ${
-            !table.getCanNextPage()
-              ? "disabled:opacity-50"
-              : "hover:bg-gray-300"
-          }`}
-        >
-          Next Page
-        </button>
-        <button
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          className="border border-gray-300 p-2 rounded-md hover:bg-gray-300"
-        >
-          Last Page
-        </button>
-      </div>
+              }
+            </table>
+          </div>
+          <div className="flex gap-5 mb-4">
+            <button
+              className="border border-gray-300 p-2 rounded-md hover:bg-gray-300"
+              onClick={() => table.setPageIndex(0)}
+            >
+              First Page
+            </button>
+            <button
+              disabled={!table.getCanPreviousPage()}
+              onClick={() => table.previousPage()}
+              className={`"border border-gray-300 p-2 rounded-md disabled:opacity-50 hover:bg-gray-300" ${
+                !table.getCanPreviousPage()
+                  ? "disabled:opacity-50"
+                  : "hover:bg-gray-300"
+              }`}
+            >
+              Previous Page
+            </button>
+            <button
+              disabled={!table.getCanNextPage()}
+              onClick={() => table.nextPage()}
+              className={`"border border-gray-300 p-2 rounded-md disabled:opacity-50 hover:bg-gray-300" ${
+                !table.getCanNextPage()
+                  ? "disabled:opacity-50"
+                  : "hover:bg-gray-300"
+              }`}
+            >
+              Next Page
+            </button>
+            <button
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              className="border border-gray-300 p-2 rounded-md hover:bg-gray-300"
+            >
+              Last Page
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

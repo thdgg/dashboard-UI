@@ -1,14 +1,15 @@
 export const ModelData = [
   {
     id: 1,
-    user: "John Doe",
+    user: "user1",
     title: "Linear Regression",
     type: "Regression",
     inferences: 1000,
     ratings: {
       stars: 4.5,
     },
-    description: "Linear regression is a linear approach to modeling the relationship between a scalar response and one or more explanatory variables.",
+    description:
+      "Linear regression is a linear approach to modeling the relationship between a scalar response and one or more explanatory variables.",
   },
   {
     id: 2,
@@ -19,7 +20,8 @@ export const ModelData = [
     ratings: {
       stars: 3,
     },
-    description: "Linear regression is a linear approach to modeling the relationship between a scalar response and one or more explanatory variables.",
+    description:
+      "Linear regression is a linear approach to modeling the relationship between a scalar response and one or more explanatory variables.",
   },
   {
     id: 3,
@@ -30,7 +32,8 @@ export const ModelData = [
     ratings: {
       stars: 1,
     },
-    description: "Linear regression is a linear approach to modeling the relationship between a scalar response and one or more explanatory variables.",
+    description:
+      "Linear regression is a linear approach to modeling the relationship between a scalar response and one or more explanatory variables.",
   },
   {
     id: 4,
@@ -41,7 +44,8 @@ export const ModelData = [
     ratings: {
       stars: 2,
     },
-    description: "Linear regression is a linear approach to modeling the relationship between a scalar response and one or more explanatory variables.",
+    description:
+      "Linear regression is a linear approach to modeling the relationship between a scalar response and one or more explanatory variables.",
   },
   {
     id: 5,
@@ -52,7 +56,8 @@ export const ModelData = [
     ratings: {
       stars: 4,
     },
-    description: "Logistic regression is a statistical model used to predict the probability of a certain event occurring.",
+    description:
+      "Logistic regression is a statistical model used to predict the probability of a certain event occurring.",
   },
   {
     id: 6,
@@ -63,7 +68,8 @@ export const ModelData = [
     ratings: {
       stars: 3.5,
     },
-    description: "Logistic regression is a statistical model used to predict the probability of a certain event occurring.",
+    description:
+      "Logistic regression is a statistical model used to predict the probability of a certain event occurring.",
   },
   {
     id: 7,
@@ -74,7 +80,8 @@ export const ModelData = [
     ratings: {
       stars: 2.5,
     },
-    description: "Logistic regression is a statistical model used to predict the probability of a certain event occurring.",
+    description:
+      "Logistic regression is a statistical model used to predict the probability of a certain event occurring.",
   },
   {
     id: 8,
@@ -85,7 +92,8 @@ export const ModelData = [
     ratings: {
       stars: 1.5,
     },
-    description: "Logistic regression is a statistical model used to predict the probability of a certain event occurring.",
+    description:
+      "Logistic regression is a statistical model used to predict the probability of a certain event occurring.",
   },
   {
     id: 9,
@@ -96,7 +104,8 @@ export const ModelData = [
     ratings: {
       stars: 4,
     },
-    description: "A decision tree is a flowchart-like structure in which each internal node represents a feature, each branch represents a decision rule, and each leaf node represents the outcome.",
+    description:
+      "A decision tree is a flowchart-like structure in which each internal node represents a feature, each branch represents a decision rule, and each leaf node represents the outcome.",
   },
   {
     id: 10,
@@ -107,7 +116,8 @@ export const ModelData = [
     ratings: {
       stars: 3.5,
     },
-    description: "A decision tree is a flowchart-like structure in which each internal node represents a feature, each branch represents a decision rule, and each leaf node represents the outcome.",
+    description:
+      "A decision tree is a flowchart-like structure in which each internal node represents a feature, each branch represents a decision rule, and each leaf node represents the outcome.",
   },
   {
     id: 11,
@@ -118,6 +128,7 @@ export const ModelData = [
     ratings: {
       stars: 4,
     },
-    description: "A decision tree is a flowchart-like structure in which each internal node represents a feature, each branch represents a decision rule, and each leaf node represents the outcome.",
+    description:
+      "A decision tree is a flowchart-like structure in which each internal node represents a feature, each branch represents a decision rule, and each leaf node represents the outcome.",
   },
 ];

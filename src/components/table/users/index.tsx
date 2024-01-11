@@ -31,7 +31,7 @@ const TableUsers = () => {
 
   const [updateUserResponse, updateUserError, updateUserLoading, updateUserAF] =
     useAxiosFunction();
-  
+
   const [showAlert, setShowAlert] = useState(false);
   const [rowToDelete, setRowToDelete] = useState<Row<any> | null>(null);
   const [isEditBoxVisible, setIsEditBoxVisible] = useState(false);
@@ -152,7 +152,7 @@ const TableUsers = () => {
           headers: {
             Authorization: `Bearer ${auth?.token}`,
           },
-          data : {
+          data: {
             roles: currentUserData.role,
             userDetail: {
               firstname: currentUserData.firstname,
@@ -163,7 +163,6 @@ const TableUsers = () => {
         },
       });
     }
-    
   };
 
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -191,7 +190,7 @@ const TableUsers = () => {
   });
 
   return (
-    <div className="overflow-auto md:mx-26 max-w-[1000px]:mx-96">
+    <div className="xl:ml-0 lg:ml-36 md:ml-80 w-full">
       {isEditBoxVisible && (
         <EditUserBox
           userData={currentUserData}
@@ -223,8 +222,8 @@ const TableUsers = () => {
           Filter
         </label>
       </div>
-      <div className="max-h-screen">
-        <table className="w-full table-auto text-center my-2">
+      <div className="overflow-x-scroll">
+        <table className="w-full table-auto text-center">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>

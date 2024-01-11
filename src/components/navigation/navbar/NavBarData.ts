@@ -1,16 +1,15 @@
 import {
   BeakerIcon,
-  CircleStackIcon,
   HomeIcon,
-  PuzzlePieceIcon,
+  LightBulbIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
 
-export const NavBarData= [
+export const NavBarData = [
   {
     title: "Home",
     path: "/home",
-    icon: HomeIcon, 
+    icon: HomeIcon,
   },
   {
     title: "Explorer",
@@ -18,15 +17,11 @@ export const NavBarData= [
     icon: UserGroupIcon,
   },
   {
-    title: "My Datasets",
-    path: "/datasets",
-    icon: CircleStackIcon
+    title: "Your Workspace",
+    path: "/profile",
+    icon: LightBulbIcon,
   },
-  {
-    title: "My Models",
-    path: "/models",
-    icon: PuzzlePieceIcon,
-  },
+
   {
     title: "My Tests",
     path: "/tests",

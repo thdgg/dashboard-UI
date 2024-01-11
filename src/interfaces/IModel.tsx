@@ -1,11 +1,14 @@
 export interface IModel {
   id: number;
-  user: string;
-  title: string;
+  name: string;
   type: string;
+  filepath: string;
   description: string;
-  inferences: number;
-  ratings: {
-    stars: number;
-  };
+  stars: number;
+  usageCount: number;
+  user_id: number;
+  username: string;
+  firstname: string;
+  lastname: string;
+  createTime: string;
 }

@@ -10,11 +10,10 @@ import { useMediaQuery } from "react-responsive";
 import React, { useEffect, useRef, useState } from "react";
 import ModelSubmissionBox from "@/components/submissionbox/model";
 import DatasetSubmissionBox from "@/components/submissionbox/dataset";
-
-
-
+import useAuth from "@/hooks/useAuth";
 
 const Navbar = React.memo(() => {
+  const { auth } = useAuth();
   const flexBetween = "flex justify-start items-center";
   const [isMenuToggle, setIsMenuToggle] = useState<boolean>(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState<number>(0);
@@ -126,7 +125,7 @@ const Navbar = React.memo(() => {
                         <PuzzlePieceIcon className="h-7 w-7 mr-2" />
                         New Model
                       </button>
-                      <button 
+                      <button
                         className="flex text-md w-full hover:bg-gray-200 p-2"
                         onClick={() => setIsNewDatasetWindowVisible(true)}
                       >
@@ -156,7 +155,9 @@ const Navbar = React.memo(() => {
                   {NavBarData.map((item, index) => {
                     return (
                       <Link
-                        to={item.path}
+                        to={item.path === "/profile"
+                          ? `${item.path}/${auth?.userName}`
+                          : item.path}
                         key={index}
                         onClick={() => {
                           setSelectedMenuItem(index);

@@ -203,7 +203,7 @@ const Test = () => {
                 </option>
               )}
               {(!modelId || models.length === 0 ||
-                models.filter((model: IModel) =>
+                Array.isArray(models) &&  models.filter((model: IModel) =>
                     model.name.toLowerCase().includes(filterModel.toLowerCase())
                   ).length === 0) && <option value="">No models found</option>}
             </select>

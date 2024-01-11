@@ -7,9 +7,10 @@ type Props = {
   model: IModel;
   onEdit: (model: IModel) => void;
   onDelete: (model: IModel) => void;
+  isOwner: boolean;
 };
 
-const Models = ({ model, onEdit, onDelete }: Props) => {
+const Model = ({ model, onEdit, onDelete, isOwner }: Props) => {
   const [openItemIndex, setOpenItemIndex] = useState<number>(-1);
   const [isDropdownActive, setIsDropdownActive] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -76,10 +77,10 @@ const Models = ({ model, onEdit, onDelete }: Props) => {
       <Link to={`/models/${model.id}`}>
         <div className="flex justify-between rounded-lg w-full shadow-lg p-6">
           <div className="flex flex-col">
-            <h1 className="text-2xl font-bold">{model.title}</h1>
-            <p className="text-sm">Inferences: {model.inferences}</p>
-            <p className="text-sm">Star: {model.ratings.stars}</p>
-            <p className="text-sm">Owner: {model.user}</p>
+            <h1 className="text-2xl font-bold">{model.name}</h1>
+            <p className="text-sm">Type: {model.type}</p>
+            <p className="text-sm">Star: {model.stars}</p>
+            <p className="text-sm">Owner: {model.username}</p>
           </div>
         </div>
       </Link>
@@ -91,17 +92,29 @@ const Models = ({ model, onEdit, onDelete }: Props) => {
             onMouseEnter={() => setIsDropdownActive(true)}
             onMouseLeave={() => setIsDropdownActive(false)}
           >
-            <button
-              className="text-sm w-full hover:bg-gray-200"
-              onClick={handleEditClick}
+            {isOwner && (
+              <div>
+                <button
+                  className="text-sm w-full hover:bg-gray-200"
+                  onClick={handleEditClick}
+                >
+                  Edit
+                </button>
+                <button
+                  className="text-sm w-full hover:bg-gray-200"
+                  onClick={handleDeleteClick}
+                >
+                  Delete
+                </button>
+              </div>
+            )}
+            <button className="text-sm w-full hover:bg-gray-200" // onClick={handleDownloadClick}
             >
-              Edit
+              Download
             </button>
-            <button
-              className="text-sm w-full hover:bg-gray-200"
-              onClick={handleDeleteClick}
+            <button className="text-sm w-full hover:bg-gray-200" // onClick={handleDownloadClick}
             >
-              Delete
+              Copy
             </button>
           </div>
         )}
@@ -114,9 +127,8 @@ const Models = ({ model, onEdit, onDelete }: Props) => {
         >
           <EllipsisVerticalIcon className="w-8 h-8" />
         </button>
-        
       </div>
     </div>
   );
-}
-export default Models;
+};
+export default Model;

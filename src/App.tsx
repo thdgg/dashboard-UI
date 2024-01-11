@@ -12,6 +12,7 @@ import SignOut from "./screens/signout/index.tsx";
 import UserProfile from "./screens/users/user-profile/index.tsx";
 import UserManagement from "./screens/users/user-management/index.tsx";
 import ModelDetail from "./screens/models/model-details/index.tsx";
+import InferenceDetail from "./screens/inferences/inference-details/index.tsx";
 
 const App = () => {
   const { auth } = useAuth();
@@ -32,10 +33,15 @@ const App = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/explorer" element={<Explorer />} />
             <Route path="/datasets" element={<Datasets />} />
-            <Route path="/models" element={<Models />} />
             <Route path="/tests" element={<Test />} />
-            <Route path="/models/:id" element={<ModelDetail />} />
-            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/tests/model/:modelId" element={<Test />} />
+            <Route path="/tests/resource/:resourceId" element={<Test />} />
+            <Route path="/models/:modelId" element={<ModelDetail />} />
+            <Route
+              path="/inference/:inferenceId"
+              element={<InferenceDetail />}
+            />
+            <Route path="/profile/:username" element={<UserProfile />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/signout" element={<SignOut />} />
             <Route path="/user-management" element={<UserManagement />} />
